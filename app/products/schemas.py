@@ -40,10 +40,13 @@ class SCategoryCreate(BaseModel):
     image_url: str | None
 
 
-class SCategoryResponse(BaseModel):
+class CategorySchema(BaseModel):
     id: int
     name: str
-    image_url: str | None
+    image_url: Optional[str] = None
+
+    class Config:
+        from_attributes = True
 
 
 

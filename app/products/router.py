@@ -1,16 +1,19 @@
-from typing import Optional
+from typing import Optional, List
+from unicodedata import category
 
 from fastapi import APIRouter, UploadFile, Form, File, Request, HTTPException, Query, Depends, status, Response
 from sqlalchemy.exc import SQLAlchemyError
 
+from app.database import async_session_maker
 from app.exceptions import ProductCannotBeAdded, CategoryCannotBeAdded
 from app.logger import logger
+from app.products.models import Category
 from app.users.models import Users
 from app.users.router import get_current_user
 from app.utils.add_image import add_image
 from app.products.dao import ProductDao, CategoryDao
-from app.products.schemas import SProductCreate, SCategoryCreate, SCategoryResponse, \
-    SProductShortResponse, SProductDetailResponse
+from app.products.schemas import SProductCreate, SCategoryCreate, \
+    SProductShortResponse, SProductDetailResponse, CategorySchema
 
 router = APIRouter(
     prefix='/products',
@@ -57,12 +60,26 @@ async def add_product(
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@router.get("/categories", response_model=List[CategorySchema])
+async def get_all_categories(request: Request):
+    try:
+        async with async_session_maker() as session:
+            categories = await CategoryDao.find_all()
+            for cat in categories:
+                if cat.image_url:
+                    cat.image_url = str(request.base_url) + cat.image_url
+        return categories
+    except Exception as e:
+        raise HTTPException(status_code=404, detail="Not found")
+
 @router.get("/{product_id}")
-async def get_product_by_id(product_id: int) -> SProductDetailResponse:
+async def get_product_by_id(product_id: int, request: Request) -> SProductDetailResponse:
     try:
         product = await ProductDao.find_by_id(product_id)
         if not product:
             raise HTTPException(status_code=404, detail="Продукт не найден")
+        if product.image_url:
+            product.image_url = str(request.base_url) + product.image_url
         return product
     except SQLAlchemyError as e:
         raise HTTPException(status_code=404, detail="Произашла непредвиденная ошибка")
@@ -97,24 +114,15 @@ async def get_all_products(
         logger.error(msg='2', extra={}, exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
-
-@router.get('/categories')
-async def get_all_categories() -> SCategoryResponse:
+@router.get('/category/{category_id}')
+async def get_category(category_id: int, request: Request) -> CategorySchema:
     try:
-        categories = await CategoryDao.find_all()
-        if not categories:
-            return []
-        return categories
+        cat = await CategoryDao.find_one_or_none(id=category_id)
+        if cat and cat.image_url:
+            cat.image_url = str(request.base_url) + cat.image_url
+        return cat
     except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Ошибка при получении категорий: {str(e)}"
-        )
-
-
-@router.get('/category/category_id/')
-async def get_category(category_id: int) -> Optional[SCategoryResponse]:
-    return await CategoryDao.find_one_or_none(id=category_id)
+        raise HTTPException(status_code=404, detail="Not found")
 
 @router.post('/category/add')
 async def add_category(
@@ -122,7 +130,7 @@ async def add_category(
         file: UploadFile = File(None),
         request: Request = None,
         current_user: Users = Depends(get_current_user)
-) -> SCategoryResponse:
+) -> CategorySchema:
     if not current_user.is_admin:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
@@ -136,14 +144,14 @@ async def add_category(
         image_url=file_name['relative_path'],
     )
 
-    category = await CategoryDao.add(**category_data.dict())
-    if not category:
+    cat = await CategoryDao.add(**category_data.dict())
+    if not cat:
         raise CategoryCannotBeAdded
 
-    if category.image_url:
-        category.image_url = file_name['absolute_url']
+    if cat.image_url:
+        cat.image_url = file_name['absolute_url']
 
-    return category
+    return cat
 
 
 @router.delete('/{product_id}')

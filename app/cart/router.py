@@ -84,7 +84,7 @@ async def get_cart(
         print(e)
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
-@router.delete("/cart/remove/{product_id}")
+@router.delete("/remove/{product_id}")
 async def remove_from_cart(
     product_id: int,
     user: Users = Depends(get_current_user),
@@ -102,7 +102,7 @@ async def remove_from_cart(
                 del cart[product_id]
 
             carts_cache[user.id] = cart
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail={"message": "Product removed from cart"})
+            return {"message": "Product removed from cart"}
         else:
             raise HTTPException(status_code=404, detail={"message": "Product not found in cart"})
 
