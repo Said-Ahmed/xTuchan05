@@ -34,9 +34,6 @@ class SProductShortResponse(BaseModel):
     weight: Optional[int] = None
     image_url: Optional[str] = None
 
-    class Config:
-        from_attributes = True
-
 
 class SCategoryCreate(BaseModel):
     name: str = Field(..., min_length=1, max_length=55)
@@ -47,4 +44,6 @@ class SCategoryResponse(BaseModel):
     id: int
     name: str
     image_url: str | None
+
+
 
