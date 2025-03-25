@@ -1,6 +1,8 @@
-from sqlalchemy import select, insert
+from sqlalchemy import select, insert, delete
 from sqlalchemy.exc import SQLAlchemyError
 from app.database import async_session_maker
+from app.logger import logger
+
 
 class BaseDAO:
     model = None
@@ -36,4 +38,31 @@ class BaseDAO:
                 return result.scalar_one()
             except SQLAlchemyError as e:
                 await session.rollback()
+                raise e
+
+    @classmethod
+    async def delete(cls, model_id: int) -> None:
+        """
+        Удаление записи по ID
+        :param model_id: ID записи для удаления
+        :raises: SQLAlchemyError если произошла ошибка при удалении
+        """
+        async with async_session_maker() as session:
+            try:
+                existing = await cls.find_by_id(model_id)
+                if not existing:
+                    raise ValueError(f"{cls.model.__name__} with id {model_id} not found")
+
+                query = delete(cls.model).where(cls.model.id == model_id)
+                await session.execute(query)
+                await session.commit()
+            except SQLAlchemyError as e:
+                await session.rollback()
+                logger.error(
+                    f"Error deleting {cls.model.__name__} with id {model_id}: {str(e)}",
+                    exc_info=True
+                )
+                raise e
+            except ValueError as e:
+                logger.warning(f"Attempt to delete non-existent {cls.model.__name__}: {str(e)}")
                 raise e
