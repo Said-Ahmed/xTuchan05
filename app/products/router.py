@@ -59,7 +59,13 @@ async def add_product(
 
 @router.get("/{product_id}")
 async def get_product_by_id(product_id: int) -> SProductDetailResponse:
-    return await ProductDao.find_by_id(product_id)
+    try:
+        product = await ProductDao.find_by_id(product_id)
+        if not product:
+            raise HTTPException(status_code=404, detail="Продукт не найден")
+        return product
+    except SQLAlchemyError as e:
+        raise HTTPException(status_code=404, detail="Произашла непредвиденная ошибка")
 
 @router.get("")
 async def get_all_products(
@@ -93,8 +99,18 @@ async def get_all_products(
 
 
 @router.get('/categories')
-async def get_category() -> Optional[SCategoryResponse]:
-    return await CategoryDao.find_all()
+async def get_all_categories() -> SCategoryResponse:
+    try:
+        categories = await CategoryDao.find_all()
+        if not categories:
+            return []
+        return categories
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Ошибка при получении категорий: {str(e)}"
+        )
+
 
 @router.get('/category/category_id/')
 async def get_category(category_id: int) -> Optional[SCategoryResponse]:
