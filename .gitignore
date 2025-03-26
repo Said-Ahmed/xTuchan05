@@ -56,3 +56,6 @@ pyproject.toml
 # Игнорировать файлы зависимостей (если используется Pipenv)
 Pipfile
 Pipfile.lock
+
+.env
+.env-non-dev
