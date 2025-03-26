@@ -57,5 +57,3 @@ pyproject.toml
 Pipfile
 Pipfile.lock
 
-.env
-.env-non-dev
