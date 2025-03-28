@@ -26,6 +26,7 @@ class SProductDetailResponse(BaseModel):
 
 
 class SProductShortResponse(BaseModel):
+    id: int
     name: str
     price: float
     weight: Optional[int] = None
