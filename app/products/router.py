@@ -175,10 +175,8 @@ async def delete_product(
 
         await ProductDao.delete(product_id)
 
-        return Response(
-            status_code=status.HTTP_200_OK,
-            content={"message": "Продукт успешно удален"}
-        )
+        return {"message": "Продукт успешно удален"}
+
     except SQLAlchemyError as e:
         logger.error(f"Ошибка при удалении продукта: {str(e)}")
         raise HTTPException(
@@ -208,10 +206,8 @@ async def delete_category(
 
         await CategoryDao.delete(category_id)
 
-        return Response(
-            status_code=status.HTTP_200_OK,
-            content={"message": "Категория успешно удалена"}
-        )
+        return {"message": "Категория успешно удалена"}
+
     except SQLAlchemyError as e:
         logger.error(f"Ошибка при удалении категории: {str(e)}")
         raise HTTPException(

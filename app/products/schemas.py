@@ -16,19 +16,13 @@ class SProductCreate(BaseModel):
         orm_mode = True
 
 
-class SProductResponse(BaseModel):
-    name: str = Field(..., min_length=1, max_length=100)
-    weight: Optional[int] = Field(None, ge=0)
-    price: float = Field(..., gt=0)
-    image_url: str | None
-
-
 class SProductDetailResponse(SProductResponse):
     id: int
     description: str | None
 
 
 class SProductShortResponse(BaseModel):
+    id: int
     name: str
     price: float
     weight: Optional[int] = None
