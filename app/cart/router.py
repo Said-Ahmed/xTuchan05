@@ -6,7 +6,7 @@ from app.cart.schemas import CartItemResponse, CartResponse
 from app.database import async_session_maker
 from app.products.dao import ProductDao
 from app.products.models import Product
-from app.products.schemas import SProductResponse
+from app.products.schemas import SProductShortResponse
 from app.users.models import Users
 from app.users.router import get_current_user
 
@@ -23,7 +23,7 @@ async def add_to_cart(
     request: Request,
     product_id: int,
     user: Users = Depends(get_current_user),
-) -> SProductResponse:
+) -> SProductShortResponse:
     try:
         product = await ProductDao.find_by_id(product_id)
         if not product:
