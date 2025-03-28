@@ -57,3 +57,6 @@ pyproject.toml
 Pipfile
 Pipfile.lock
 
+Dockerfile
+docker-compose.yaml
+
