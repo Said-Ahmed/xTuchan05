@@ -16,3 +16,8 @@ dotenv~=0.9.9
 uvicorn~=0.34.0
 python-multipart
 python-json-logger~=3.3.0
+pytest~=8.3.5
+sqladmin~=0.20.1
+requests~=2.32.3
+starlette~=0.46.0
+httpx~=0.28.1
