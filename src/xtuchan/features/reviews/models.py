@@ -11,7 +11,7 @@ class Review(Base):
 
     id = Column(Integer, primary_key=True)
     product_id = Column(Integer, ForeignKey('products.id', ondelete='CASCADE'), nullable=False)
-    user_id = Column(Integer, ForeignKey('auth.id'), nullable=False)
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     text = Column(Text, nullable=True)
     rating = Column(Integer, CheckConstraint('rating BETWEEN 1 AND 5'), nullable=False, default=5)
     created_at = Column(DateTime, default=datetime.utcnow)

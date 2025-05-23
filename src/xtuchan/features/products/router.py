@@ -1,10 +1,10 @@
 from typing import Optional, List, Annotated
-
 from fastapi import APIRouter, UploadFile, Form, File, Request, HTTPException, Query, Depends, status, Path
 from sqlalchemy.exc import SQLAlchemyError
-
 from src.xtuchan.database import async_session_maker
 from src.xtuchan.exceptions import ProductCannotBeAdded, CategoryCannotBeAdded
+from src.xtuchan.features.auth.permissions import RoleChecker
+from src.xtuchan.features.products.service import create
 from src.xtuchan.logger import logger
 from src.xtuchan.features.auth.models import Users
 from src.xtuchan.features.auth.router import get_current_user
@@ -13,74 +13,35 @@ from src.xtuchan.features.products.dao import ProductDao, CategoryDao
 from src.xtuchan.features.products.schemas import SProductCreate, SCategoryCreate, \
     SProductShortResponse, SProductDetailResponse, CategorySchema
 
+
 router = APIRouter(
     prefix='/products',
     tags=['Продукты']
 )
 
-@router.post('/add', status_code=201)
+
+@router.post(
+    '/add',
+    status_code=201,
+    dependencies=[Depends(RoleChecker(['admin']))]
+)
 async def add_product(
-    name: str = Form(..., min_length=1, max_length=100),
-    description: Optional[str] = Form(None, max_length=500),
-    category_id: int = Form(..., gt=0),
-    weight: Optional[int] = Form(None, ge=0, le=10000),
-    price: float = Form(..., gt=0),
+    product_in: SProductCreate = Depends(),
     file: UploadFile = File(...),
-    request: Request = None,
-    current_user: Users = Depends(get_current_user)
+    request: Request = None
 ) -> SProductCreate:
-    if not current_user.is_admin:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Только администраторы могут добавлять продукты"
-        )
+    product = await create(request, product_in, file)
+    return product
 
-    category = await CategoryDao.find_one_or_none(id=category_id)
-    if not category:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Категория с ID {category_id} не найдена"
-        )
-
-    try:
-        file_name = await add_image(file, request, 'products')
-
-        product_data = SProductCreate(
-            name=name,
-            category_id=category_id,
-            description=description,
-            weight=weight,
-            price=price,
-            image_url=file_name['relative_path'],
-        )
-
-        product = await ProductDao.add(**product_data.dict())
-        if not product:
-            raise ProductCannotBeAdded
-
-        if product.image_url:
-            product.image_url = str(request.base_url) + file_name['relative_path']
-
-        return product
-
-    except Exception as e:
-        logger.error(msg=e, extra={}, exc_info=True)
-        raise HTTPException(status_code=500)
 
 @router.get("/categories", response_model=List[CategorySchema])
 async def get_all_categories(request: Request):
-    try:
-        async with async_session_maker() as session:
-            categories = await CategoryDao.find_all()
-            for cat in categories:
+    categories = await CategoryDao.find_all()
+    for cat in categories:
+        if cat.image_url:
+            cat.image_url = str(request.base_url) + cat.image_url
 
-                if cat.image_url:
-                    cat.image_url = str(request.base_url) + cat.image_url
-
-        return categories
-
-    except Exception as e:
-        raise HTTPException(status_code=404, detail="Not found")
+    return categories
 
 @router.get("/{product_id}")
 async def get_product_by_id(product_id: int, request: Request) -> SProductDetailResponse:
