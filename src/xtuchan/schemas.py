@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import ClassVar
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, computed_field
 
 
 class TuchanBase(BaseModel):

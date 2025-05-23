@@ -11,8 +11,7 @@ from src.xtuchan.features.auth.router import get_current_user
 from src.xtuchan.utils.add_image import add_image
 from src.xtuchan.features.products.dao import ProductDao, CategoryDao
 from src.xtuchan.features.products.schemas import SProductCreate, SCategoryCreate, \
-    SProductShortResponse, SProductDetailResponse, CategorySchema
-
+    SProductShortResponse, SProductDetailResponse, CategorySchema, SProductResponse
 
 router = APIRouter(
     prefix='/products',
@@ -29,7 +28,7 @@ async def add_product(
     product_in: SProductCreate = Depends(),
     file: UploadFile = File(...),
     request: Request = None
-) -> SProductCreate:
+) -> SProductResponse:
     product = await create(request, product_in, file)
     return product
 

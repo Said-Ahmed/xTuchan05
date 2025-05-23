@@ -17,12 +17,7 @@ async def create(request: Request, product_in: SProductCreate, file):
 
     file_name = await add_image(file, request, 'products')
 
-    product_data = SProductCreate(
-        **product_in.dict(),
-        image_url=file_name['relative_path'],
-    )
-
-    product = await ProductDao.add(**product_data.dict())
+    product = await ProductDao.add(**product_in.dict(), image_url=file_name['relative_path'],)
     if not product:
         raise ProductCannotBeAdded
 
