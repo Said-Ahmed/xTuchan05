@@ -6,7 +6,6 @@ from src.xtuchan.features.auth.router import router as users_router
 from src.xtuchan.features.products.router import router as product_router
 from src.xtuchan.features.reviews.router import router as review_router
 from src.xtuchan.features.cart.router import router as cart_router
-from src.xtuchan.pydantic_doc import router as pd_router
 from src.xtuchan.features.orders.router import router as orders_router
 
 app = FastAPI()
@@ -29,10 +28,5 @@ app.include_router(users_router)
 app.include_router(product_router)
 app.include_router(review_router)
 app.include_router(cart_router)
-app.include_router(pd_router)
 app.include_router(orders_router)
-
-origins = [
-    'http://localhost:3000',
-]
 

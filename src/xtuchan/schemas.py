@@ -14,3 +14,4 @@ class TuchanBase(BaseModel):
             datetime: lambda v: v.strftime("%Y-%m-%dT%H:%M:%S.%fZ") if v else None,
         },
     )
+

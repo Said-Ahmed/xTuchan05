@@ -21,4 +21,7 @@ async def create(request: Request, product_in: SProductCreate, file):
     if not product:
         raise ProductCannotBeAdded
 
+    if product.image_url:
+        product.image_url = str(request.base_url) + product.image_url
+
     return product

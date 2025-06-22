@@ -34,13 +34,11 @@ class OrderItemModel(Base):
     id = Column(String, primary_key=True, default=generate_uuid)
     order_id = Column(String, ForeignKey('orders.id'))
     product = Column(String, nullable=False)
-    size = Column(String, nullable=False)
     quantity = Column(Integer, nullable=False)
 
     def dict(self):
         return {
             'id': self.id,
             'product': self.product,
-            'size': self.size,
             'quantity': self.quantity,
         }

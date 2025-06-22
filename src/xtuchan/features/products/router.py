@@ -1,4 +1,6 @@
 from typing import Optional, List, Annotated
+from unicodedata import category
+
 from fastapi import APIRouter, UploadFile, Form, File, Request, HTTPException, Query, Depends, status, Path
 from sqlalchemy.exc import SQLAlchemyError
 from src.xtuchan.database import async_session_maker
@@ -11,7 +13,7 @@ from src.xtuchan.features.auth.router import get_current_user
 from src.xtuchan.utils.add_image import add_image
 from src.xtuchan.features.products.dao import ProductDao, CategoryDao
 from src.xtuchan.features.products.schemas import SProductCreate, SCategoryCreate, \
-    SProductShortResponse, SProductDetailResponse, CategorySchema, SProductResponse
+    SProductShortResponse, SCategoryResponse, SProductResponse
 
 router = APIRouter(
     prefix='/products',
@@ -29,36 +31,33 @@ async def add_product(
     file: UploadFile = File(...),
     request: Request = None
 ) -> SProductResponse:
-    product = await create(request, product_in, file)
-    return product
+    return await create(request, product_in, file)
 
 
-@router.get("/categories", response_model=List[CategorySchema])
+@router.get("/categories", response_model=List[SCategoryResponse])
 async def get_all_categories(request: Request):
     categories = await CategoryDao.find_all()
     for cat in categories:
         if cat.image_url:
             cat.image_url = str(request.base_url) + cat.image_url
-
     return categories
 
+
 @router.get("/{product_id}")
-async def get_product_by_id(product_id: int, request: Request) -> SProductDetailResponse:
-    try:
-        product = await ProductDao.find_by_id(product_id)
+async def get_product_by_id(
+        product_id: Annotated[int, Path(ge=1)],
+        request: Request
+) -> SProductResponse:
+    product = await ProductDao.find_by_id(product_id)
+    if not product:
+        raise HTTPException(status_code=404, detail="Продукт не найден")
 
-        if not product:
-            raise HTTPException(status_code=404, detail="Продукт не найден")
+    if product.image_url:
+        product.image_url = str(request.base_url) + product.image_url
+    return product
 
-        if product.image_url:
-            product.image_url = str(request.base_url) + product.image_url
 
-        return product
-
-    except SQLAlchemyError as e:
-        raise HTTPException(status_code=404, detail="Произашла непредвиденная ошибка")
-
-@router.get("")
+@router.get("", response_model=List[SProductShortResponse])
 async def get_all_products(
     request: Request,
     category_id: int | None = Query(None, ge=1, description="Фильтр по ID категории"),
@@ -78,21 +77,19 @@ async def get_all_products(
             filters["name"] = name
 
         products = await ProductDao.find_all(**filters)
+
         for product in products:
             if product.image_url:
                 product.image_url = str(request.base_url) + product.image_url
 
-        return {
-            "items": [SProductShortResponse.model_validate(p) for p in products],
-            "count": len(products)
-        }
+        return products
 
-    except (SQLAlchemyError, Exception) as e:
+    except Exception as e:
         logger.error(msg='2', extra={}, exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.get('/category/{category_id}')
-async def get_category(category_id: Annotated[int, Path(ge=1)], request: Request) -> CategorySchema:
+async def get_category(category_id: Annotated[int, Path(ge=1)], request: Request) -> SCategoryResponse:
     try:
         cat = await CategoryDao.find_one_or_none(id=category_id)
 
@@ -112,7 +109,7 @@ async def add_category(
         file: UploadFile = File(None),
         request: Request = None,
         current_user: Users = Depends(get_current_user)
-) -> CategorySchema:
+) -> SCategoryResponse:
     if not current_user.is_admin:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,

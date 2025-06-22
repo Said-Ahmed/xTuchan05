@@ -39,8 +39,6 @@ async def create_order(payload: CreateOrderSchema):
         repo = OrdersRepository(session)
         order_service = OrdersService(repo)
         order = payload.dict()['order']
-        for item in order:
-            item['size'] = item['size'].value
         order = await order_service.place_order(order)
         await session.commit()
         return_payload = order.dict()

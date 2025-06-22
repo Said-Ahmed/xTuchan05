@@ -1,6 +1,7 @@
 from typing import Optional, List
-from pydantic import BaseModel, Field, field_validator, computed_field
+from pydantic import BaseModel, Field, field_validator, computed_field, model_validator
 from src.xtuchan.schemas import TuchanBase
+
 
 class SProductCreate(TuchanBase):
     name: str = Field(min_length=1, max_length=100)
@@ -18,57 +19,34 @@ class SProductResponse(TuchanBase):
     price: float
     image_url: str
 
-    @computed_field
-    @property
-    def full_image_url(self) -> Optional[str]:
-        if not self.image_url:
-            return None
-
-        context = getattr(self, "__pydantic_extra__", {})
-        if "request" in context:
-            return str(context["request"].base_url) + self.image_url
-
-        return self.image_url
-
-
-
-class SProductDetailResponse(BaseModel):
-    id: int
-    name: str = Field(..., min_length=1, max_length=100)
-    weight: Optional[int] = Field(None, ge=0)
-    price: float = Field(..., gt=0)
-    image_url: str | None
-    description: str | None
-
 
 class SProductShortResponse(TuchanBase):
     id: int
     name: str
     price: float
-    weight: Optional[int] = None
-    image_url: Optional[str] = None
-
-    class Config:
-        orm_mode = True
+    weight: int | None = None
+    image_url: str
 
 
-class SProductListResponse(BaseModel):
+class SProductListResponse(TuchanBase):
     items: List[SProductShortResponse]
-    count: int
+
+    @computed_field
+    @property
+    def count(self) -> int:
+        return len(self.items)
 
 
 class SCategoryCreate(BaseModel):
     name: str = Field(..., min_length=1, max_length=55)
-    image_url: str | None
+    image_url: str
 
 
-class CategorySchema(TuchanBase):
+class SCategoryResponse(TuchanBase):
     id: int
     name: str
-    image_url: Optional[str] = None
+    image_url: str
 
-    class Config:
-        from_attributes = True
 
 
 
