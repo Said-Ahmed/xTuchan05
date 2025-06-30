@@ -35,7 +35,6 @@ build/
 
 # Игнорировать файлы IDE
 .idea/
-.vscode/
 *.swp
 *.swo
 

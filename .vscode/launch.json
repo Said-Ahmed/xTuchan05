@@ -1,0 +1,11 @@
+{
+"version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Server Debug",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/bin/run.py"
+    }
+  ]
+}
