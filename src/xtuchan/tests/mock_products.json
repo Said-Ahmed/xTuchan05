@@ -1,0 +1,162 @@
+[
+  {
+    "name": "Филадельфия классик",
+    "category_id": 1,
+    "description": "Лосось, сливочный сыр, огурец, рис, нори",
+    "weight": 250,
+    "price": 12.99,
+    "image_url": "static/images/tests/philadelphia.webp"
+  },
+  {
+    "name": "Калифорния с крабом",
+    "category_id": 1,
+    "description": "Краб-микс, авокадо, огурец, икра тобико",
+    "weight": 230,
+    "price": 10.99,
+    "image_url": "static/images/tests/california.webp"
+  },
+  {
+    "name": "Пицца Маргарита",
+    "category_id": 2,
+    "description": "Томатный соус, моцарелла, базилик",
+    "weight": 400,
+    "price": 8.99,
+    "image_url": "static/images/tests/margherita.webp"
+  },
+  {
+    "name": "Пицца Пепперони",
+    "category_id": 2,
+    "description": "Томатный соус, моцарелла, пепперони",
+    "weight": 450,
+    "price": 11.99,
+    "image_url": "static/images/tests/pepperoni.webp"
+  },
+  {
+    "name": "Чизбургер",
+    "category_id": 3,
+    "description": "Говяжья котлета, сыр, салат, помидор, соус",
+    "weight": 300,
+    "price": 6.99,
+    "image_url": "static/images/tests/cheeseburger.webp"
+  },
+  {
+    "name": "Бургер с беконом",
+    "category_id": 3,
+    "description": "Говяжья котлета, бекон, сыр, лук, соус BBQ",
+    "weight": 350,
+    "price": 8.49,
+    "image_url": "static/images/tests/bacon-burger.webp"
+  },
+  {
+    "name": "Карбонара",
+    "category_id": 4,
+    "description": "Спагетти, бекон, сливочный соус, яичный желток",
+    "weight": 320,
+    "price": 9.99,
+    "image_url": "static/images/tests/carbonara.webp"
+  },
+  {
+    "name": "Салат Цезарь",
+    "category_id": 5,
+    "description": "Курица, салат айсберг, сухарики, соус Цезарь",
+    "weight": 200,
+    "price": 7.49,
+    "image_url": null
+  },
+  {
+    "name": "Тирамису",
+    "category_id": 6,
+    "description": "Десерт с кофейной пропиткой и сыром маскарпоне",
+    "weight": 150,
+    "price": 5.99,
+    "image_url": "static/images/tests/tiramisu.webp"
+  },
+  {
+    "name": "Кола",
+    "category_id": 7,
+    "description": "Газированный напиток 0.5л",
+    "weight": 500,
+    "price": 2.49,
+    "image_url": "static/images/tests/cola.webp"
+  },
+  {
+    "name": "Том Ям",
+    "category_id": 8,
+    "description": "Острый тайский суп с креветками и кокосовым молоком",
+    "weight": 350,
+    "price": 9.49,
+    "image_url": "static/images/tests/tom-yum.webp"
+  },
+  {
+    "name": "Стейк Рибай",
+    "category_id": 9,
+    "description": "Говяжий стейк с овощами на гриле",
+    "weight": 400,
+    "price": 19.99,
+    "image_url": "static/images/tests/ribeye.webp"
+  },
+  {
+    "name": "Креветки в кляре",
+    "category_id": 10,
+    "description": "Хрустящие креветки с соусом чили",
+    "weight": 180,
+    "price": 8.99,
+    "image_url": "static/images/tests/fried-shrimp.webp"
+  },
+  {
+    "name": "Унаги ролл",
+    "category_id": 1,
+    "description": "Угорь, огурец, соус унаги",
+    "weight": 220,
+    "price": 13.49,
+    "image_url": "static/images/tests/unagi-roll.webp"
+  },
+  {
+    "name": "Гавайская пицца",
+    "category_id": 2,
+    "description": "Курица, ананас, сыр, томатный соус",
+    "weight": 420,
+    "price": 10.99,
+    "image_url": "static/images/tests/hawaiian.webp"
+  },
+  {
+    "name": "Черный бургер",
+    "category_id": 3,
+    "description": "Котлета из мраморной говядины, черная булка, соус трюфельный",
+    "weight": 380,
+    "price": 12.99,
+    "image_url": "static/images/tests/black-burger.webp"
+  },
+  {
+    "name": "Чизкейк Нью-Йорк",
+    "category_id": 6,
+    "description": "Классический десерт из творожного сыра",
+    "weight": 120,
+    "price": 6.49,
+    "image_url": "static/images/tests/cheesecake.webp"
+  },
+  {
+    "name": "Мохито",
+    "category_id": 7,
+    "description": "Освежающий напиток с лаймом и мятой",
+    "weight": 400,
+    "price": 4.99,
+    "image_url": "static/images/tests/mojito.webp"
+  },
+  {
+    "name": "Борщ",
+    "category_id": 8,
+    "description": "Традиционный украинский суп со сметаной",
+    "weight": 300,
+    "price": 5.99,
+    "image_url": "static/images/tests/borscht.webp"
+  },
+  {
+    "name": "Картофель фри",
+    "category_id": 10,
+    "description": "Хрустящая картошка с солью",
+    "weight": 150,
+    "price": 3.49,
+    "image_url": "static/images/tests/fries.webp"
+  }
+]

@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Роллы и суши",
+    "image_url": "static/images/tests/sushi.webp"
+  },
+  {
+    "name": "Пицца",
+    "image_url": "static/images/tests/pizza.webp"
+  },
+  {
+    "name": "Бургеры",
+    "image_url": "static/images/tests/burgers.webp"
+  },
+  {
+    "name": "Паста",
+    "image_url": "static/images/tests/pasta.webp"
+  },
+  {
+    "name": "Салаты",
+    "image_url": null
+  },
+  {
+    "name": "Десерты",
+    "image_url": "static/images/tests/desserts.webp"
+  },
+  {
+    "name": "Напитки",
+    "image_url": "static/images/tests/drinks.webp"
+  },
+  {
+    "name": "Супы",
+    "image_url": "static/images/tests/soups.webp"
+  },
+  {
+    "name": "Горячие блюда",
+    "image_url": "static/images/tests/hot-meals.webp"
+  },
+  {
+    "name": "Закуски",
+    "image_url": "static/images/tests/snacks.webp"
+  }
+]

@@ -1,7 +1,8 @@
 from typing import Literal
-
+from dotenv import load_dotenv
 from pydantic.v1 import BaseSettings
 
+load_dotenv()
 
 class Settings(BaseSettings):
     MODE: Literal["DEV", "TEST", "PROD"]
@@ -22,7 +23,7 @@ class Settings(BaseSettings):
     JWT_KEY: str
     ALGORITHM: str
 
-    class Config:
+    class   Config:
         env_file = ".env"
 
 

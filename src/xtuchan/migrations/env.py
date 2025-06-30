@@ -9,12 +9,7 @@ import sys
 
 sys.path.insert(0, dirname(dirname(dirname(abspath(__file__)))))
 
-from src.xtuchan.database import DATABASE_URL, Base
-
-from src.xtuchan.features.orders.models import *
-from src.xtuchan.features.auth.models import *
-from src.xtuchan.features.products.models import *
-from src.xtuchan.features.reviews.models import *
+from src.xtuchan.database import DATABASE_URL
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

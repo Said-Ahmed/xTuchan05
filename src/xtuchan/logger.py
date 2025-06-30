@@ -1,7 +1,7 @@
 import logging
 from pythonjsonlogger.json import JsonFormatter
 
-from src.xtuchan.config import settings
+from xtuchan.config import settings
 
 logger = logging.getLogger()
 

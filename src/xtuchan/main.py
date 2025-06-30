@@ -2,11 +2,11 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.xtuchan.features.auth.router import router as users_router
-from src.xtuchan.features.products.router import router as product_router
-from src.xtuchan.features.reviews.router import router as review_router
-from src.xtuchan.features.cart.router import router as cart_router
-from src.xtuchan.features.orders.router import router as orders_router
+from xtuchan.auth.router import router as users_router
+from xtuchan.products.router import router as product_router
+from xtuchan.reviews.router import router as review_router
+from xtuchan.cart.router import router as cart_router
+from xtuchan.orders.router import router as orders_router
 
 app = FastAPI()
 

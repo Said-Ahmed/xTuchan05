@@ -1,0 +1,62 @@
+[
+  {
+    "email": "user1@example.com",
+    "hashed_password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+    "is_admin": false
+  },
+  {
+    "email": "user2@test.org",
+    "hashed_password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+    "is_admin": false
+  },
+  {
+    "email": "admin1@company.net",
+    "hashed_password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+    "is_admin": true
+  },
+  {
+    "email": "jane.doe@gmail.com",
+    "hashed_password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+    "is_admin": false
+  },
+  {
+    "email": "john.smith@yahoo.com",
+    "hashed_password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+    "is_admin": false
+  },
+  {
+    "email": "alice123@protonmail.com",
+    "hashed_password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+    "is_admin": false
+  },
+  {
+    "email": "bob.marley@music.com",
+    "hashed_password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+    "is_admin": false
+  },
+  {
+    "email": "sysadmin@corp.io",
+    "hashed_password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+    "is_admin": true
+  },
+  {
+    "email": "test.user@domain.com",
+    "hashed_password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+    "is_admin": false
+  },
+  {
+    "email": "support@helpdesk.org",
+    "hashed_password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+    "is_admin": false
+  },
+  {
+    "email": "developer@dev.tech",
+    "hashed_password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+    "is_admin": true
+  },
+  {
+    "email": "manager@business.com",
+    "hashed_password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+    "is_admin": false
+  }
+]
